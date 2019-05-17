@@ -1,0 +1,13 @@
+version: '3'
+
+volumes:
+  oracle-xe-11g-data:
+
+services:
+  db:
+    image: carloscastillo/rgt-oracle-xe-11g:latest
+    ports:
+      - "8087:8080"
+      - "1521:1521"
+    volumes:
+      - oracle-xe-11g-data:/u01/app/oracle
