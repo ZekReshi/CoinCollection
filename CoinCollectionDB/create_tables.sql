@@ -7,12 +7,18 @@ create table COIN (
   CURRENCY_ID number(5)
 );
 
-create table source (
+create table SOURCE (
   SOURCE_ID number(5) primary key,
-  NAME varchar(30)
+  NAME varchar2(30)
 );
 
 create table CURRENCY (
   CURRENCY_ID number(5) primary key,
-  NAME varchar(10)
+  NAME varchar2(10)
+);
+
+create table COLLECTOR (
+  COLLECTOR_ID number(5) primary key,
+  FIRSTNAME varchar2(20),
+  LASTNAME varchar2(20)
 );
