@@ -4,7 +4,8 @@ create table COIN (
   PRESERVATION number(1),
   YEAROFCOINAGE number(4),
   SOURCE_ID number(5),
-  CURRENCY_ID number(5)
+  CURRENCY_ID number(5),
+  COLLECTOR_ID number(5)
 );
 
 create table SOURCE (

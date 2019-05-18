@@ -5,6 +5,7 @@ volumes:
 
 services:
   db:
+    container_name: coincollection_db_xe
     image: carloscastillo/rgt-oracle-xe-11g:latest
     ports:
       - "8087:8080"

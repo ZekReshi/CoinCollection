@@ -36,3 +36,16 @@ begin
     from DUAL;
   end if;
 end;
+
+create or replace trigger BI_COLLECTOR
+  before insert
+  on COLLECTOR
+  for each row
+begin
+  if :NEW.COLLECTOR_ID is null
+  then
+    select SEQ_COLLECTOR.nextval
+    into :NEW.COLLECTOR_ID
+    from DUAL;
+  end if;
+end;

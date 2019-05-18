@@ -6,4 +6,9 @@ references SOURCE(SOURCE_ID);
 alter table COIN
 add constraint COIN_CURRENCY_FK
 foreign key(CURRENCY_ID)
-references CURRENCY(currency_id);
+references CURRENCY(CURRENCY_ID);
+
+alter table COIN
+add constraint COIN_COLLECTOR_FK
+foreign key(COLLECTOR_ID)
+references COLLECTOR(COLLECTOR_ID);
