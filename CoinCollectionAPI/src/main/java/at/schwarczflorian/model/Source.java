@@ -6,6 +6,15 @@ public class Source {
     private String name;
 
     //region Constructors
+
+    public Source() {
+    }
+
+    public Source(long source_id, String name) {
+        this.source_id = source_id;
+        this.name = name;
+    }
+
     //endregion
 
     //region Getter and Setter

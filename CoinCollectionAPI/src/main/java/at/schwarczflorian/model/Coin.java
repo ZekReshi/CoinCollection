@@ -6,21 +6,23 @@ public class Coin {
     private int value;
     private int preservation;
     private int yearOfCoinage;
-    private long source_id;
-    private long currency_id;
+    private Source source;
+    private Currency currency;
+    private Collector collector;
 
     //region Constructors
 
     public Coin() {
     }
 
-    public Coin(long coin_id, int value, int preservation, int yearOfCoinage, long source_id, long currency_id) {
+    public Coin(long coin_id, int value, int preservation, int yearOfCoinage, Source source, Currency currency, Collector collector) {
         this.coin_id = coin_id;
         this.value = value;
         this.preservation = preservation;
         this.yearOfCoinage = yearOfCoinage;
-        this.source_id = source_id;
-        this.currency_id = currency_id;
+        this.source = source;
+        this.currency = currency;
+        this.collector = collector;
     }
 
     //endregion
@@ -59,20 +61,28 @@ public class Coin {
         this.yearOfCoinage = yearOfCoinage;
     }
 
-    public long getSource_id() {
-        return source_id;
+    public Source getSource() {
+        return source;
     }
 
-    public void setSource_id(long source_id) {
-        this.source_id = source_id;
+    public void setSource(Source source) {
+        this.source = source;
     }
 
-    public long getCurrency_id() {
-        return currency_id;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setCurrency_id(long currency_id) {
-        this.currency_id = currency_id;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public Collector getCollector() {
+        return collector;
+    }
+
+    public void setCollector(Collector collector) {
+        this.collector = collector;
     }
 
     //endregion
