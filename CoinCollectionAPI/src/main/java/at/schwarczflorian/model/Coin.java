@@ -2,7 +2,7 @@ package at.schwarczflorian.model;
 
 public class Coin {
 
-    private long coin_id;
+    private long id;
     private int value;
     private int preservation;
     private int yearOfCoinage;
@@ -15,8 +15,8 @@ public class Coin {
     public Coin() {
     }
 
-    public Coin(long coin_id, int value, int preservation, int yearOfCoinage, Source source, Currency currency, Collector collector) {
-        this.coin_id = coin_id;
+    public Coin(long id, int value, int preservation, int yearOfCoinage, Source source, Currency currency, Collector collector) {
+        this.id = id;
         this.value = value;
         this.preservation = preservation;
         this.yearOfCoinage = yearOfCoinage;
@@ -29,12 +29,12 @@ public class Coin {
 
     //region Getter and Setter
 
-    public long getCoin_id() {
-        return coin_id;
+    public long getId() {
+        return id;
     }
 
-    public void setCoin_id(long coin_id) {
-        this.coin_id = coin_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getValue() {

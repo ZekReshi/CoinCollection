@@ -2,7 +2,7 @@ package at.schwarczflorian.model;
 
 public class Currency {
 
-    private long currency_id;
+    private long id;
     private String name;
 
     //region Constructors
@@ -10,8 +10,8 @@ public class Currency {
     public Currency() {
     }
 
-    public Currency(long currency_id, String name) {
-        this.currency_id = currency_id;
+    public Currency(long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -19,12 +19,12 @@ public class Currency {
 
     //region Getter and Setter
 
-    public long getCurrency_id() {
-        return currency_id;
+    public long getId() {
+        return id;
     }
 
-    public void setCurrency_id(long currency_id) {
-        this.currency_id = currency_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
