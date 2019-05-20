@@ -3,6 +3,8 @@ create table COIN (
   VALUE number(4),
   PRESERVATION number(1),
   YEAROFCOINAGE number(4),
+  FRONT blob,
+  BACK blob,
   SOURCE_ID number(5),
   CURRENCY_ID number(5),
   COLLECTOR_ID number(5)
