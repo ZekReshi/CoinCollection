@@ -1,0 +1,51 @@
+<div class="col-md-8">
+  <h3>Liste aller Münzen</h3>
+  <button class="btn btn-default" (click)="showForm = !showForm">Neu</button>
+  <button class="btn btn-default" *ngIf="showForm">Speichern</button>
+  <table class="table table-sm">
+    <thead>
+      <tr class="row">
+        <th class="col-sm-1">Wert</th>
+        <th class="col-sm-2">Währung</th>
+        <th class="col-sm-1">Erhaltung</th>
+        <th class="col-sm-1">Prägungsjahr</th>
+        <th class="col-sm-2">Vorderseite</th>
+        <th class="col-sm-2">Hinterseite</th>
+        <th class="col-sm-1">Aufbewahrungsort</th>
+        <th class="col-sm-2">Spender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row" *ngIf="showForm">
+        <td class="col-sm-1"><input class="form-control" type="number" [(ngModel)]="newCoin.value"></td>
+        <td class="col-sm-2"><select class="form-control" [(ngModel)]="newCoin.currency">
+          <option *ngFor="let currency of currencies" value="currency">{{ currency.name }}</option>
+        </select></td>
+        <td class="col-sm-1"><input class="form-control" type="number" [(ngModel)]="newCoin.preservation"></td>
+        <td class="col-sm-1"><input class="form-control" type="number" [(ngModel)]="newCoin.yearOfCoinage"></td>
+        <td class="col-sm-2"><label class="btn btn-default">
+          Auswählen<input type="file" hidden [(ngModel)]="newCoin.front">
+        </label></td>
+        <td class="col-sm-2"><label class="btn btn-default">
+          Auswählen<input type="file" hidden [(ngModel)]="newCoin.back">
+        </label></td>
+        <td class="col-sm-1"><select class="form-control" [(ngModel)]="newCoin.source">
+          <option *ngFor="let source of sources" value="source">{{ source.name }}</option>
+        </select></td>
+        <td class="col-sm-2"><select class="form-control" [(ngModel)]="newCoin.source">
+          <option *ngFor="let collector of collectors" value="collector">{{ collector.firstName }} {{ collector.lastName }}</option>
+        </select></td>
+      </tr>
+      <tr class="row" *ngFor="let coin of coins">
+        <td class="col-sm-1">{{ coin.value }}</td>
+        <td class="col-sm-2">{{ coin.currency.name }}</td>
+        <td class="col-sm-1">{{ coin.preservation }}</td>
+        <td class="col-sm-1">{{ coin.yearOfCoinage }}</td>
+        <td class="col-sm-2"><img [src]="getFrontImageUrl(coin.id)"></td>
+        <td class="col-sm-2"><img [src]="getBackImageUrl(coin.id)"></td>
+        <td class="col-sm-1">{{ coin.source.name }}</td>
+        <td class="col-sm-2">{{ coin.collector.firstName }} {{ coin.collector.lastName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
