@@ -7,8 +7,6 @@ export interface Coin {
     value: number,
     preservation: number,
     yearOfCoinage: number,
-    front: File,
-    back: File,
     source: Source,
     currency: Currency,
     collector: Collector
