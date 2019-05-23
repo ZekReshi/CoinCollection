@@ -1,0 +1,73 @@
+<div class="col-md-10">
+  <h3>Liste aller Münzen</h3>
+  <button class="btn btn-default" (click)="showForm = !showForm">{{ showForm ? "Abbrechen" : "Neu" }}</button>
+  <button class="btn btn-primary pull-right" *ngIf="showForm" (click)="saveNewCoin()">Speichern</button>
+  <table class="table table-sm">
+    <thead>
+      <tr class="row">
+        <th class="col-sm-1">Wert</th>
+        <th class="col-sm-2">Währung</th>
+        <th class="col-sm-1">Erhaltung</th>
+        <th class="col-sm-1">Prägungsjahr</th>
+        <th class="col-sm-2">Vorderseite</th>
+        <th class="col-sm-2">Hinterseite</th>
+        <th class="col-sm-1">Aufbewahrungsort</th>
+        <th class="col-sm-2">Spender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row" *ngIf="showForm">
+        <td class="col-sm-1">
+            <select class="form-control" [(ngModel)]="newCoin.value">
+              <option class="option" *ngFor="let validValue of validValues" [ngValue]="validValue">{{ validValue }}</option>
+            </select>
+          </td>
+        <td class="col-sm-2">
+          <select class="form-control" [(ngModel)]="newCoin.currency">
+            <option class="option" *ngFor="let currency of currencies" [ngValue]="currency">{{ currency.name }}</option>
+          </select>
+        </td>
+        <td class="col-sm-1"><input class="form-control" type="number" [(ngModel)]="newCoin.preservation"></td>
+        <td class="col-sm-1"><input class="form-control" type="number" [(ngModel)]="newCoin.yearOfCoinage"></td>
+        <td class="col-sm-2">
+          <label class="{{ newFront == undefined ? 'btn btn-default' : '' }}">
+            <span>
+              {{ newFront == undefined ? "Auswählen" : '' }}
+              <img [src]="newFrontUrl" *ngIf="newFront != undefined">
+            </span>
+            <input #front type="file" accept="image/*" hidden (change)="setFrontImage(front.files)">
+          </label>
+        </td>
+        <td class="col-sm-2">
+          <label class="{{ newBack == undefined ? 'btn btn-default' : '' }}">
+            <span>
+              {{ newBack == undefined ? "Auswählen" : '' }}
+              <img [src]="newBackUrl" *ngIf="newBack != undefined">
+            </span>
+            <input #back type="file" accept="image/*" hidden (change)="setBackImage(back.files)">
+          </label>
+        </td>
+        <td class="col-sm-1">
+          <select class="form-control" [(ngModel)]="newCoin.source">
+          <option *ngFor="let source of sources" [ngValue]="source">{{ source.name }}</option>
+          </select>
+        </td>
+        <td class="col-sm-2">
+          <select class="form-control" [(ngModel)]="newCoin.collector">
+            <option *ngFor="let collector of collectors" [ngValue]="collector">{{ collector.firstName }} {{ collector.lastName }}</option>
+          </select>
+        </td>
+      </tr>
+      <tr class="row" *ngFor="let coin of coins">
+        <td class="col-sm-1">{{ coin.value }}</td>
+        <td class="col-sm-2">{{ coin.currency.name }}</td>
+        <td class="col-sm-1">{{ coin.preservation }}</td>
+        <td class="col-sm-1">{{ coin.yearOfCoinage }}</td>
+        <td class="col-sm-2"><img [src]="getFrontImageUrl(coin)"></td>
+        <td class="col-sm-2"><img [src]="getBackImageUrl(coin)"></td>
+        <td class="col-sm-1">{{ coin.source.name }}</td>
+        <td class="col-sm-2">{{ coin.collector.firstName }} {{ coin.collector.lastName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
