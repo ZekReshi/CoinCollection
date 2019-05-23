@@ -8,8 +8,6 @@ public class Coin {
     private int value;
     private int preservation;
     private int yearOfCoinage;
-    private Image front;
-    private Image back;
     private Source source;
     private Currency currency;
     private Collector collector;
@@ -64,8 +62,6 @@ public class Coin {
     public void setYearOfCoinage(int yearOfCoinage) {
         this.yearOfCoinage = yearOfCoinage;
     }
-
-
 
     public Source getSource() {
         return source;
