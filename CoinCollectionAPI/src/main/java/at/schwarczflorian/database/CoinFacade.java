@@ -21,7 +21,6 @@ public class CoinFacade extends Facade {
     CollectorFacade collectorFacade;
 
     public void insert(Coin coin) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("insert into COIN (VALUE, PRESERVATION, YEAROFCOINAGE, " +
                 "FRONT, BACK, SOURCE_ID, CURRENCY_ID, COLLECTOR_ID) values (?, ?, ?, ?, ?, ?, ?, ?"))  {
             stmt.setInt(1, coin.getValue());
@@ -36,11 +35,9 @@ public class CoinFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public List<Coin> getAll() {
-        init();
         List<Coin> coins = new LinkedList<>();
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("select c.COIN_ID, c.VALUE, c.PRESERVATION, c.YEAROFCOINAGE, " +
@@ -53,12 +50,10 @@ public class CoinFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return coins;
     }
 
     public Coin getById(Long id) {
-        init();
         Coin coin = null;
         try (PreparedStatement stmt = conn.prepareStatement("select c.COIN_ID, c.VALUE, c.PRESERVATION, " +
                 "c.YEAROFCOINAGE, c.SOURCE_ID, c.CURRENCY_ID, c.COLLECTOR_ID from COIN c where COIN_ID = ?")) {
@@ -74,7 +69,6 @@ public class CoinFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return coin;
     }
 
@@ -83,7 +77,6 @@ public class CoinFacade extends Facade {
     }
 
     public void setFront(Long id, ByteArrayInputStream bais) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("update table COIN set FRONT = ? where COIN_ID = ?")) {
             stmt.setBinaryStream(1, bais);
             stmt.setLong(2, id);
@@ -91,7 +84,6 @@ public class CoinFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public BufferedImage getBack(Long id) {
@@ -99,7 +91,6 @@ public class CoinFacade extends Facade {
     }
 
     public void setBack(Long id, ByteArrayInputStream bais) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("update table COIN set BACK = ? where COIN_ID = ?")) {
             stmt.setBinaryStream(1, bais);
             stmt.setLong(2, id);
@@ -107,7 +98,6 @@ public class CoinFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public Coin generateCoin(ResultSet rs) throws SQLException {

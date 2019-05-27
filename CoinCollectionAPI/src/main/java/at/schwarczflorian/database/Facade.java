@@ -1,34 +1,37 @@
 package at.schwarczflorian.database;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Stateless
 abstract class Facade {
 
-    private static final String DRIVER_STRING = "org.apache.derby.jdbc.ClientDriver";
-    static final String CONNECTION_STRING = "jdbc:derby://192.168.99.100:1521/XE;create=true";
-    static final String USER = "dbu";
-    static final String PASSWORD = "passme";
     static Connection conn;
 
+    @PostConstruct
     void init() {
         try {
-            Class.forName(DRIVER_STRING);
-            conn = DriverManager.getConnection(CONNECTION_STRING, USER, PASSWORD);
-        } catch (ClassNotFoundException e) {
-            System.err.println(e.getMessage());
+            InitialContext context = new InitialContext();
+            DataSource dataSource = (DataSource) context.lookup("java:jboss/datasources/oracledbDS");
+            conn = dataSource.getConnection();
         } catch (SQLException e) {
             System.out.println("Verbindung zur Datenbank nicht möglich:\n"
                     + e.getMessage() + "\n");
+        } catch (NamingException e) {
+            e.printStackTrace();
         }
     }
 
+    @PreDestroy
     void close() {
         try {
-            if (conn != null || !conn.isClosed()) {
+            if (conn != null && !conn.isClosed()) {
                 conn.close();
                 System.out.println("Goodbye!");
             }

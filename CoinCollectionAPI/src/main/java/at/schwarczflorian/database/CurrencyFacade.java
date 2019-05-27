@@ -14,18 +14,15 @@ import java.util.List;
 public class CurrencyFacade extends Facade{
 
     public void insert(Currency currency) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("insert into CURRENCY (NAME) values (?)"))  {
             stmt.setString(1, currency.getName());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public List<Currency> getAll() {
-        init();
         List<Currency> currencies = new LinkedList<>();
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("select c.CURRENCY_ID, c.NAME from CURRENCY c");
@@ -39,12 +36,10 @@ public class CurrencyFacade extends Facade{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return currencies;
     }
 
     public Currency getById(Long id) {
-        init();
         Currency currency = null;
         try (PreparedStatement stmt = conn.prepareStatement("select c.CURRENCY_ID, c.NAME from CURRENCY c where CURRENCY_ID = ?")) {
             stmt.setLong(1, id);
@@ -60,7 +55,6 @@ public class CurrencyFacade extends Facade{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return currency;
     }
 
