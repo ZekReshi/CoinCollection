@@ -14,7 +14,6 @@ import java.util.List;
 public class CollectorFacade extends Facade {
 
     public void insert(Collector collector) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("insert into COLLECTOR (FIRSTNAME, LASTNAME) values (?, ?)"))  {
             stmt.setString(1, collector.getFirstName());
             stmt.setString(2, collector.getLastName());
@@ -22,11 +21,9 @@ public class CollectorFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public List<Collector> getAll() {
-        init();
         List<Collector> collectors = new LinkedList<>();
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("select c.COLLECTOR_ID, c.FIRSTNAME, c.LASTNAME from COLLECTOR c");
@@ -40,12 +37,10 @@ public class CollectorFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return collectors;
     }
 
     public Collector getById(Long id) {
-        init();
         Collector collector = null;
         try (PreparedStatement stmt = conn.prepareStatement("select c.COLLECTOR_ID, c.FIRSTNAME, c.LASTNAME from COLLECTOR c where COLLECTOR_ID = ?")) {
             stmt.setLong(1, id);
@@ -63,7 +58,6 @@ public class CollectorFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return collector;
     }
 

@@ -14,18 +14,15 @@ import java.util.List;
 public class SourceFacade extends Facade {
 
     public void insert(Source source) {
-        init();
         try (PreparedStatement stmt = conn.prepareStatement("insert into SOURCE (NAME) values (?)"))  {
             stmt.setString(1, source.getName());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     public List<Source> getAll() {
-        init();
         List<Source> sources = new LinkedList<>();
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery("select s.SOURCE_ID, s.NAME from SOURCE s");
@@ -39,7 +36,6 @@ public class SourceFacade extends Facade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return sources;
     }
 
