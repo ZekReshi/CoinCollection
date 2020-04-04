@@ -10,7 +10,7 @@ import java.io.IOException;
 public class CorsFilter implements ContainerResponseFilter, ContainerRequestFilter {
 
     @Override
-    public void filter(ContainerRequestContext request) throws IOException {
+    public void filter(ContainerRequestContext request) {
 
         if (isPreflightRequest(request)) {
             request.abortWith(Response.ok().build());
