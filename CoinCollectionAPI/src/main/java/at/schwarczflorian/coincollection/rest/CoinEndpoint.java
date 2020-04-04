@@ -4,6 +4,7 @@ import at.schwarczflorian.coincollection.database.CoinRepository;
 import at.schwarczflorian.coincollection.model.Coin;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,8 +21,7 @@ public class CoinEndpoint {
     public Response getAll() {
         List<Coin> coins = coinRepository.listAll();
         return Response
-                .ok()
-                .entity(coins)
+                .ok(coins)
                 .build();
     }
 
@@ -36,23 +36,24 @@ public class CoinEndpoint {
                     .build();
         }
         return Response
-                .ok()
-                .entity(coin)
+                .ok(coin)
                 .build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public Response save(Coin coin) {
         coinRepository.persistAndFlush(coin);
         return Response
-                .noContent()
+                .ok(coin)
                 .build();
     }
 
     @GET
     @Path("{id}/front")
     @Produces("image/*")
+    @Transactional
     public Response getFront(@PathParam("id") Long id) {
         Coin coin = coinRepository.findById(id);
         if (coin == null || coin.getFront() == null) {
@@ -68,6 +69,7 @@ public class CoinEndpoint {
     @GET
     @Path("{id}/back")
     @Produces("image/*")
+    @Transactional
     public Response getBack(@PathParam("id") Long id) {
         Coin coin = coinRepository.findById(id);
         if (coin == null || coin.getBack() == null) {
@@ -79,14 +81,15 @@ public class CoinEndpoint {
     @POST
     @Path("{id}/front")
     @Consumes("image/*")
-    public Response postFront(@PathParam("id") Long id, byte[] image) {
+    @Transactional
+    public Response saveFront(@PathParam("id") Long id, byte[] image) {
         Coin coin = coinRepository.findById(id);
         if (coin == null) {
             return Response
                     .status(404)
                     .build();
         }
-        coin.setFront(image);
+        coinRepository.update("front = ?1 where id = ?2", image, id);
         return Response
                 .noContent()
                 .build();
@@ -95,14 +98,15 @@ public class CoinEndpoint {
     @POST
     @Path("{id}/back")
     @Consumes("image/*")
-    public Response postBack(@PathParam("id") Long id, byte[] image) {
+    @Transactional
+    public Response saveBack(@PathParam("id") Long id, byte[] image) {
         Coin coin = coinRepository.findById(id);
         if (coin == null) {
             return Response
                     .status(404)
                     .build();
         }
-        coin.setBack(image);
+        coinRepository.update("back = ?1 where id = ?2", image, id);
         return Response
                 .noContent()
                 .build();

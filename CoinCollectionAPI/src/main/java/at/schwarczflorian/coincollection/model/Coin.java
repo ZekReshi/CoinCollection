@@ -30,6 +30,54 @@ public class Coin extends PanacheEntity {
 
     //region Getter and Setter
 
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public int getPreservation() {
+        return preservation;
+    }
+
+    public void setPreservation(int preservation) {
+        this.preservation = preservation;
+    }
+
+    public int getYearOfCoinage() {
+        return yearOfCoinage;
+    }
+
+    public void setYearOfCoinage(int yearOfCoinage) {
+        this.yearOfCoinage = yearOfCoinage;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public Collector getCollector() {
+        return collector;
+    }
+
+    public void setCollector(Collector collector) {
+        this.collector = collector;
+    }
+
     public byte[] getFront() {
         return front;
     }
