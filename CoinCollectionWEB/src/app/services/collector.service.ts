@@ -1,28 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Collector } from '../models/collector.Model';
+import {GlobalService} from './global.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectorService {
-  collectorsUrl: string = "http://localhost:8080/coincollection/collectors"
+  collectorsUrl = '/collectors';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private globalService: GlobalService) { }
 
   getAll(): Observable<Collector[]> {
-    return of([
-      {
-        id: 1,
-        firstName: "Franz",
-        lastName: "Schwarcz"
-      },
-      {
-        id: 2,
-        firstName: "Florian",
-        lastName: "Schwarcz"
-      }
-    ]);
+    return this.http.get<Collector[]>(this.globalService.url + this.collectorsUrl);
   }
 }

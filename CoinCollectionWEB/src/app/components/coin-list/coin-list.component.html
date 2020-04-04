@@ -1,7 +1,7 @@
 <div class="col-md-10">
   <h3>Liste aller Münzen</h3>
   <button class="btn btn-default" (click)="showForm = !showForm">{{ showForm ? "Abbrechen" : "Neu" }}</button>
-  <button class="btn btn-primary pull-right" *ngIf="showForm" (click)="saveNewCoin()">Speichern</button>
+  <button class="btn btn-primary pull-right" *ngIf="showForm" [disabled]="!isNewCoinValid()" (click)="saveNewCoin()">Speichern</button>
   <table class="table table-sm">
     <thead>
       <tr class="row">
@@ -63,8 +63,8 @@
         <td class="col-sm-2">{{ coin.currency.name }}</td>
         <td class="col-sm-1">{{ coin.preservation }}</td>
         <td class="col-sm-1">{{ coin.yearOfCoinage }}</td>
-        <td class="col-sm-2"><img [src]="getFrontImageUrl(coin)"></td>
-        <td class="col-sm-2"><img [src]="getBackImageUrl(coin)"></td>
+        <td class="col-sm-2"><img [src]="getFrontImageUrl(coin)" alt="Bild nicht verfügbar"></td>
+        <td class="col-sm-2"><img [src]="getBackImageUrl(coin)" alt="Bild nicht verfügbar"></td>
         <td class="col-sm-1">{{ coin.source.name }}</td>
         <td class="col-sm-2">{{ coin.collector.firstName }} {{ coin.collector.lastName }}</td>
       </tr>

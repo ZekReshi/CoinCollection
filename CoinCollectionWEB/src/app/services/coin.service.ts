@@ -1,70 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Coin } from '../models/coin.Model';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import {GlobalService} from './global.service';
 
 const coinHttpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
-}
+};
 const imageHttpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'image/*'
   })
-}
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoinService {
-  coinsUrl: string = "http://localhost:8080/coincollection/coins"
-  coins: Coin[]
+  coinsUrl = '/coins';
 
-  constructor(private http: HttpClient) {
-    this.coins = [
-      {
-        id: 1,
-        value: 10,
-        preservation: 10,
-        yearOfCoinage: 1990,
-        source: {
-          id: 1,
-          name: "Kaffeedose"
-        },
-        currency: {
-          id: 1,
-          name: "Groschen"
-        },
-        collector: {
-          id: 1,
-          firstName: "Franz",
-          lastName: "Schwarcz"
-        }
-      }
-    ];
-  }
+  constructor(private http: HttpClient, private globalService: GlobalService) {}
 
   getAll(): Observable<Coin[]> {
-    //return this.http.get<Coin[]>(this.coinsUrl);
-    return of(this.coins);
+    return this.http.get<Coin[]>(this.globalService.url + this.coinsUrl);
   }
 
   postCoin(coin: Coin): Observable<Coin> {
-    //return this.http.post<Coin>(this.coinsUrl, coin, coinHttpOptions);
-    this.coins = this.coins.concat(coin);
-    coin.id = this.coins.length;
-    return of(coin);
+    return this.http.post<Coin>(this.globalService.url + this.coinsUrl, coin, coinHttpOptions);
   }
 
   postFront(coin: Coin, image: File): Observable<File> {
-    //return this.http.post<File>(this.getFrontImageUrl(coin), image, imageHttpOptions);
-    return of(null);
+    return this.http.post<File>(this.globalService.url + this.getFrontImageUrl(coin), image, imageHttpOptions);
   }
 
   postBack(coin: Coin, image: File): Observable<File> {
-    //return this.http.post<File>(this.getBackImageUrl(coin), image, imageHttpOptions);
-    return of(null);
+    return this.http.post<File>(this.globalService.url + this.getBackImageUrl(coin), image, imageHttpOptions);
   }
 
   getFrontImageUrl(coin: Coin): string {

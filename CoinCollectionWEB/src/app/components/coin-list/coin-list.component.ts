@@ -18,7 +18,7 @@ export class CoinListComponent implements OnInit {
   currencies: Currency[];
   sources: Source[];
   collectors: Collector[];
-  showForm: boolean = false;
+  showForm = false;
   newCoin: Coin = {
     id: undefined,
     value: undefined,
@@ -30,11 +30,12 @@ export class CoinListComponent implements OnInit {
   };
   newFront: File = null;
   newBack: File = null;
-  newFrontUrl: string = "";
-  newBackUrl: string = "";
+  newFrontUrl = '';
+  newBackUrl = '';
   validValues: number[] = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
 
-  constructor(private coinService: CoinService, private currencyService: CurrencyService, private sourceService: SourceService, private collectorService: CollectorService) { }
+  constructor(private coinService: CoinService, private currencyService: CurrencyService, private sourceService: SourceService,
+              private collectorService: CollectorService) { }
 
   ngOnInit() {
     this.refreshCoins();
@@ -49,7 +50,7 @@ export class CoinListComponent implements OnInit {
         this.coins = data;
       },
       (error) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -60,7 +61,7 @@ export class CoinListComponent implements OnInit {
         this.currencies = data;
       },
       (error) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -71,7 +72,7 @@ export class CoinListComponent implements OnInit {
         this.sources = data;
       },
       (error) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -82,7 +83,7 @@ export class CoinListComponent implements OnInit {
         this.collectors = data;
       },
       (error) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
@@ -95,83 +96,85 @@ export class CoinListComponent implements OnInit {
     this.coinService.getBackImageUrl(coin);
   }
 
-  setFrontImage(files: File[]): void {
-    if (files.length === 0)
+  setFrontImage(files: FileList): void {
+    if (files.length === 0) {
       return;
-    this.newFront = files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(this.newFront); 
-    reader.onload = (_event) => {
-      this.newFrontUrl = reader.result as string; 
     }
+    this.newFront = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(this.newFront);
+    reader.onload = (event) => {
+      this.newFrontUrl = reader.result as string;
+    };
   }
 
-  setBackImage(files: File[]): void {
+  setBackImage(files: FileList): void {
     if (files.length === 0) {
       return;
     }
     this.newBack = files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(this.newBack); 
-    reader.onload = (_event) => {
-      this.newBackUrl = reader.result as string; 
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(this.newBack);
+    reader.onload = (event) => {
+      this.newBackUrl = reader.result as string;
+    };
   }
 
   saveNewCoin(): void {
-    alert(typeof(this.newCoin.value));
     if (!this.isNewCoinValid()) {
       return;
     }
     this.coinService.postCoin(this.newCoin).subscribe (
-      (data) => {
+      (coinData) => {
+        this.newCoin = coinData;
         this.coinService.postFront(this.newCoin, this.newFront).subscribe (
-          (data) => {
-            this.coinService.postBack(this.newCoin, this.newBack).subscribe (
-              (data) => {
-                this.refreshCoins();
-                this.newCoin = {
-                  id: undefined,
-                  value: undefined,
-                  preservation: undefined,
-                  yearOfCoinage: undefined,
-                  source: undefined,
-                  currency: undefined,
-                  collector: undefined
-                };
-                this.newFront = null;
-                this.newFrontUrl = "";
-                this.newBack = null;
-                this.newBackUrl = "";
-                this.showForm = false;
-              },
-              (error) => {
-                alert(error.message);
-              }
-            );
+          (frontData) => {
+            this.refreshCoins();
           },
           (error) => {
-            alert(error.message);
+            console.log(error.message);
           }
         );
+        this.coinService.postBack(this.newCoin, this.newBack).subscribe (
+          (backData) => {
+            this.refreshCoins();
+          },
+          (error) => {
+            console.log(error.message);
+          }
+        );
+        this.newCoin = {
+          id: undefined,
+          value: undefined,
+          preservation: undefined,
+          yearOfCoinage: undefined,
+          source: undefined,
+          currency: undefined,
+          collector: undefined
+        };
+        this.newFront = null;
+        this.newFrontUrl = '';
+        this.newBack = null;
+        this.newBackUrl = '';
+        this.showForm = false;
       },
       (error) => {
-        alert(error.message);
+        console.log(error.message);
       }
     );
   }
 
   isNewCoinValid(): boolean {
-    return this.newCoin.value != undefined &&
+    return this.newCoin.value !== undefined &&
     this.validValues.includes(this.newCoin.value) &&
-    this.newCoin.preservation != undefined &&
+    this.newCoin.preservation !== undefined &&
     this.newCoin.preservation > 0 &&
     this.newCoin.preservation <= 10 &&
-    this.newCoin.yearOfCoinage != undefined &&
+    this.newCoin.yearOfCoinage !== undefined &&
     this.newCoin.yearOfCoinage < 2019 &&
-    this.newCoin.currency != undefined &&
-    this.newCoin.source != undefined &&
-    this.newCoin.collector != undefined &&
+    this.newCoin.currency !== undefined &&
+    this.newCoin.source !== undefined &&
+    this.newCoin.collector !== undefined &&
     this.newFront != null &&
     this.newBack != null;
   }

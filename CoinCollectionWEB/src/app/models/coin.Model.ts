@@ -3,11 +3,11 @@ import { Currency } from './currency.Model';
 import { Collector } from './collector.Model';
 
 export interface Coin {
-    id: number,
-    value: number,
-    preservation: number,
-    yearOfCoinage: number,
-    source: Source,
-    currency: Currency,
-    collector: Collector
+    id: number;
+    value: number;
+    preservation: number;
+    yearOfCoinage: number;
+    source: Source;
+    currency: Currency;
+    collector: Collector;
 }
