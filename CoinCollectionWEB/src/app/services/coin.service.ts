@@ -40,10 +40,10 @@ export class CoinService {
   }
 
   getFrontImageUrl(coin: Coin): string {
-    return this.coinsUrl + '/' + coin.id + '/front';
+    return this.globalService.url + this.coinsUrl + '/' + coin.id + '/front';
   }
 
   getBackImageUrl(coin: Coin): string {
-    return this.coinsUrl + '/' + coin.id + '/back';
+    return this.globalService.url + this.coinsUrl + '/' + coin.id + '/back';
   }
 }

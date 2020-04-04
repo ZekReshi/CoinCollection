@@ -88,12 +88,12 @@ export class CoinListComponent implements OnInit {
     );
   }
 
-  getFrontImageUrl(coin: Coin) {
-    this.coinService.getFrontImageUrl(coin);
+  getFrontImageUrl(coin: Coin): string {
+    return this.coinService.getFrontImageUrl(coin);
   }
 
-  getBackImageUrl(coin: Coin) {
-    this.coinService.getBackImageUrl(coin);
+  getBackImageUrl(coin: Coin): string {
+    return this.coinService.getBackImageUrl(coin);
   }
 
   setFrontImage(files: FileList): void {
